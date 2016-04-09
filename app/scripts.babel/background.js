@@ -1,93 +1,73 @@
 'use strict';
 
-let commands = {};
+let commands = {},
+	timeout,
+	direct = new Speak(false),
+	enqueue = new Speak(true);
 
-chrome.runtime.onInstalled.addListener(details => {
-	console.log('previousVersion', details.previousVersion);
-});
+/**
+ * Options messages and titles
+ */
+const MENU_OPTION_INITIAL = 'Você acessou o jíra, qual opção você deseja acessar?',
+	MENU_OPTION_LIST_HISTORY = 'Listar histórias',
+	MENU_OPTION_DETAIL_HISTORY = 'Detalhar história';
 
-chrome.commands.onCommand.addListener(command => {
-	commands[command]();
-});
-
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	if (changeInfo.status == 'complete')
-		init();
-});
-
+/**
+ * Init app, call all functions
+ */
 function init() {
-	let speakDirect = new Speak(false),
-		speakEnqueue = new Speak(true);
-
-	speakDirect.speak('Você acessou o jíra, qual opção você deseja acessar?');
-
-	commands.option1 = function() {
-		speakDirect.speak('Listar histórias, BBB-1990 - Inserir campo de contrato na tela de evidência, BBB-2990 - Inserir campo de agência na tela de cadastro');
+	if (validate_jira()) {
+		define_options();
+		delay();
 	}
-
-	speakEnqueue.speak('1 - Listar histórias');
-	speakEnqueue.speak('2 - Detalhar história');
-	speakEnqueue.speak('3 - Listar atividades');
-	speakEnqueue.speak('4 - Detalhar atividade');
 }
 
 /**
- * @description Class responsible for chrome speak tts
+ * Validate url and project for jira site
  */
-class Speak {
-
-	/**
-	 * Instance speak conf
-	 * @param  { true or false } enqueue Define with speak direct or enqueue
-	 */
-	constructor(enqueue) {
-		this.speakconf = {
-			lang: 'pt-BR',
-			rate: 2.0,
-			enqueue: enqueue,
-			voiceName: 'Google português do Brasil'
-		};
-	}
-
-	/**
-	 * Speak
-	 * @param  { string } message Message for speak tts
-	 */
-	speak(message) {
-		chrome.tts.speak(message, this.speakconf);
-	}
-
+function validate_jira() {
+	return true;
 }
 
 /**
- * @description Class responsible for http requests
+ * Configure properties and speak options in menu initial
  */
-class Http {
+function define_options() {
+	direct.speak(MENU_OPTION_INITIAL);
 
-	/**
-	 * Get http
-	 * @param  { string } url URL get request
-	 * @return { response } Response body for http request is 200 or response error
-	 */
-	get(url) {
-		return new Promise(
-			function(resolve, reject) {
-				var request = new XMLHttpRequest();
-				request.onreadystatechange = function() {
-					if (this.readyState === XMLHttpRequest.DONE) {
-						if (this.status === 200) {
-							resolve(this.response);
-						} else {
-							reject(new Error(this.statusText));
-						}
-					}
-				}
-				request.onerror = function() {
-					reject(new Error('XMLHttpRequest Error: ' + this.statusText));
-				};
-				request.open('GET', url);
-				request.send();
-			});
+	commands.option1 = () => {
+		direct.speak(MENU_OPTION_LIST_HISTORY + ', BBB-1990 - Inserir campo de contrato na tela de evidência, BBB-2990 - Inserir campo de agência na tela de cadastro');
 	}
-
+	enqueue.speak('1 - ' + MENU_OPTION_LIST_HISTORY);
 }
+
+/**
+ * Configure delay after speak
+ */
+function delay() {
+	clearTimeout(timeout);
+	timeout = setTimeout(() => {
+		commands = {};
+	}, 10000); // 10 secs
+}
+
+/**
+ * @description Receive command by inject listener content script
+ */
+chrome.extension.onRequest.addListener((request, sender, sendResponse) => {
+	var command = commands[request.command];
+	if (command) {
+		commands[request.command]();
+		delay();
+	}
+	sendResponse({});
+});
+
+/**
+ * @description Receive command by chrome browser
+ */
+chrome.commands.onCommand.addListener(command => {
+	if (command == 'active') {
+		init();
+	}
+});

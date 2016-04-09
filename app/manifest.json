@@ -8,20 +8,28 @@
     "128": "images/icon-128.png"
   },
   "default_locale": "en",
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["scripts/content/key.js"],
+    "run_at": "document_start"
+  }],
   "background": {
     "scripts": [
       "scripts/chromereload.js",
+      "scripts/lib/speak.js",
+      "scripts/lib/http.js",
       "scripts/background.js"
     ]
   },
+  "options_page": "options/index.html",
   "commands": {
-    "option1": {
+    "active": {
       "suggested_key": {
-        "default": "Ctrl+1",
-        "windows": "Alt+1",
-        "linux": "Ctrl+1"
+        "default": "Ctrl+0",
+        "windows": "Alt+0",
+        "linux": "Ctrl+0"
       },
-      "description": "Option number 1"
+      "description": "__MSG_appActiveCommand__"
     }
   },
   "permissions": [
@@ -34,13 +42,5 @@
     "*://*.google.com/",
     "tts",
     "commands"
-  ],
-  "browser_action": {
-    "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
-    },
-    "default_title": "jira accessibility",
-    "default_popup": "popup.html"
-  }
+  ]
 }
