@@ -1,38 +1,36 @@
 'use strict';
 
-let storage = new Storage();
-let jira = new Jira();
+var storage = new Storage();
+var jira = new Jira();
 
-let commands = {};
-let timeout;
+var commands = {};
+var timeout = void 0;
 
-let direct = new Speak(false);
-let enqueue = new Speak(true);
+var direct = new Speak(false);
+var enqueue = new Speak(true);
 
 /**
  * Init app, call all functions
  */
 function init() {
-	validate().then(
-		() => {
-			options();
-			delay();
-		}, (error) => {
-			_(error.forEach(
-				(value) => {
-					console.log(value);
-					direct.speak(VALIDATION_FIELDS_JIRA);
-				}));
-		});
+	validate().then(function () {
+		options();
+		delay();
+	}, function (error) {
+		_(error.forEach(function (value) {
+			console.log(value);
+			direct.speak(VALIDATION_FIELDS_JIRA);
+		}));
+	});
 }
 
 /**
  * Validate url and project for jira site
  */
 function validate() {
-	let errors = [];
-	return new Promise((resolve, reject) => {
-		storage.getf().then((response) => {
+	var errors = [];
+	return new Promise(function (resolve, reject) {
+		storage.getf().then(function (response) {
 			if (S(response.url).isEmpty()) {
 				errors.push('Validation error => url jira storage is undefined or blank');
 			}
@@ -44,7 +42,7 @@ function validate() {
 				reject(errors);
 			}
 			resolve();
-		}, (error) => {
+		}, function (error) {
 			errors.push('Validation error => ' + error);
 			reject(errors);
 		});
@@ -55,23 +53,23 @@ function validate() {
  * Configure properties and speak options in menu initial
  */
 function options() {
-	storage.getf().then((props) => {
-		jira.profile(props.url).then((profile) => {
+	storage.getf().then(function (props) {
+		jira.profile(props.url).then(function (profile) {
 			direct.speak(S(MENU_OPTION_INITIAL).template({
 				name: profile.displayName
 			}).s);
 
 			defineOption1();
-		}, (error) => {
+		}, function (error) {
 			direct.speak(jira.errors(error));
 		});
 	});
 }
 
 function defineOption1() {
-	commands.option1 = () => {
+	commands.option1 = function () {
 		direct.speak(MENU_OPTION_LIST_HISTORY + ', BBB-1990 - Inserir campo de contrato na tela de evidência, BBB-2990 - Inserir campo de agência na tela de cadastro');
-	}
+	};
 	enqueue.speak('1 - ' + MENU_OPTION_LIST_HISTORY);
 }
 
@@ -80,7 +78,7 @@ function defineOption1() {
  */
 function delay() {
 	clearTimeout(timeout);
-	timeout = setTimeout(() => {
+	timeout = setTimeout(function () {
 		commands = {};
 	}, 20000); // 20 secs
 }
@@ -88,7 +86,7 @@ function delay() {
 /**
  * @description Receive command by inject listener content script
  */
-chrome.extension.onRequest.addListener((request, sender, sendResponse) => {
+chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
 	if (request.type == 'command') {
 		var command = commands[request.command];
 		if (command) {
@@ -104,7 +102,7 @@ chrome.extension.onRequest.addListener((request, sender, sendResponse) => {
 /**
  * @description Receive command by chrome browser
  */
-chrome.commands.onCommand.addListener(command => {
+chrome.commands.onCommand.addListener(function (command) {
 	if (command == 'active') {
 		init();
 	}

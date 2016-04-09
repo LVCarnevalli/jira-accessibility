@@ -10,7 +10,7 @@ class Speak {
 	constructor(enqueue) {
 		this.speakconf = {
 			lang: 'pt-BR',
-			rate: 2.0,
+			rate: 1.3,
 			enqueue: enqueue,
 			voiceName: 'Google português do Brasil'
 		};

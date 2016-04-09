@@ -23,7 +23,7 @@
             return undefined;
         }
         try {
-            return JSON.parse(localStorage.getItem(name));
+            return localStorage.getItem(name);
         } catch (e) {
             return null;
         }
