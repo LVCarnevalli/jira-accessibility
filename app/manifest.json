@@ -16,8 +16,11 @@
   "background": {
     "scripts": [
       "scripts/chromereload.js",
+      "scripts/lib/string.js",
       "scripts/lib/speak.js",
+      "scripts/lib/lodash.js",
       "scripts/lib/http.js",
+      "scripts/lib/storage.js",
       "scripts/background.js"
     ]
   },

@@ -19,9 +19,9 @@ this.i18n = {
         "en": "Information",
         "de": "Information"
     },
-    "login": {
-        "en": "Login",
-        "de": "Anmeldung"
+    "jira": {
+        "en": "JIRA",
+        "pt": "JIRA"
     },
     "username": {
         "en": "Username:",

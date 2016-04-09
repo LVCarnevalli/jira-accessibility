@@ -1,60 +1,40 @@
 window.addEvent("domready", function () {
     // Option 1: Use the manifest:
-    new FancySettings.initWithManifest(function (settings) {
-        settings.manifest.myButton.addEvent("action", function () {
-            alert("You clicked me!");
-        });
-    });
+    // new FancySettings.initWithManifest(function (settings) {
+    //     settings.manifest.myButton.addEvent("action", function () {
+    //         alert("You clicked me!");
+    //     });
+    // });
     
     // Option 2: Do everything manually:
-    /*
-    var settings = new FancySettings("My Extension", "icon.png");
+    var settings = new FancySettings("JIRA Accessibility", "icon.png");
     
-    var username = settings.create({
+    var url = settings.create({
         "tab": i18n.get("information"),
-        "group": i18n.get("login"),
-        "name": "username",
+        "group": i18n.get("jira"),
+        "name": "url",
         "type": "text",
-        "label": i18n.get("username"),
-        "text": i18n.get("x-characters")
+        "label": i18n.get("username")
     });
     
-    var password = settings.create({
+    var project = settings.create({
         "tab": i18n.get("information"),
-        "group": i18n.get("login"),
-        "name": "password",
+        "group": i18n.get("jira"),
+        "name": "project",
         "type": "text",
-        "label": i18n.get("password"),
-        "text": i18n.get("x-characters-pw"),
-        "masked": true
+        "label": i18n.get("password")
     });
     
-    var myDescription = settings.create({
+    var description = settings.create({
         "tab": i18n.get("information"),
-        "group": i18n.get("login"),
+        "group": i18n.get("jira"),
         "name": "myDescription",
         "type": "description",
         "text": i18n.get("description")
     });
     
-    var myButton = settings.create({
-        "tab": "Information",
-        "group": "Logout",
-        "name": "myButton",
-        "type": "button",
-        "label": "Disconnect:",
-        "text": "Logout"
-    });
-    
-    // ...
-    
-    myButton.addEvent("action", function () {
-        alert("You clicked me!");
-    });
-    
     settings.align([
-        username,
-        password
+        url,
+        project
     ]);
-    */
 });
