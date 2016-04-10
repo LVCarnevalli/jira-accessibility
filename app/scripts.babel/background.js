@@ -21,6 +21,7 @@ function init() {
 			_(error.forEach(
 				(value) => {
 					console.log(value);
+					commands = {};
 					direct.speak(VALIDATION_FIELDS_JIRA);
 				}));
 		});
@@ -61,18 +62,41 @@ function options() {
 				name: profile.displayName
 			}).s);
 
-			defineOption1();
+			defineOption1(props.url, props.project);
+			defineOption2(props.url, props.project);
 		}, (error) => {
+			commands = {};
 			direct.speak(jira.errors(error));
 		});
 	});
 }
 
-function defineOption1() {
+function defineOption1(url, project) {
 	commands.option1 = () => {
-		direct.speak(MENU_OPTION_LIST_HISTORY + ', BBB-1990 - Inserir campo de contrato na tela de evidência, BBB-2990 - Inserir campo de agência na tela de cadastro');
+		jira.stories(url, project).then((stories) => {
+			direct.speak(MENU_OPTION_LIST_HISTORY);
+
+			_(stories.issues.forEach(
+				(value) => {
+					enqueue.speak(value.key + ' - ' + value.fields.summary);
+				}));
+		});
 	}
 	enqueue.speak('1 - ' + MENU_OPTION_LIST_HISTORY);
+}
+
+function defineOption2(url, project) {
+	commands.option2 = () => {
+		jira.nonFunctionalStories(url, project).then((stories) => {
+			direct.speak(MENU_OPTION_LIST_HISTORY_NON_FUNCTIONAL);
+
+			_(stories.issues.forEach(
+				(value) => {
+					enqueue.speak(value.key + ' - ' + value.fields.summary);
+				}));
+		});
+	}
+	enqueue.speak('2 - ' + MENU_OPTION_LIST_HISTORY_NON_FUNCTIONAL);
 }
 
 /**

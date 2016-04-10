@@ -9,7 +9,6 @@ class Http {
 	 * @return { response } Response body for http request is 200 or response error
 	 */
 	get(url) {
-		console.log(url);
 		return new Promise((resolve, reject) => {
 			var request = new XMLHttpRequest();
 			request.onreadystatechange = () => {

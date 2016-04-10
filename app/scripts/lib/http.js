@@ -23,7 +23,6 @@ var Http = function () {
    * @return { response } Response body for http request is 200 or response error
    */
 		value: function get(url) {
-			console.log(url);
 			return new Promise(function (resolve, reject) {
 				var request = new XMLHttpRequest();
 				request.onreadystatechange = function () {
