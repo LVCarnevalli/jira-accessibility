@@ -12,9 +12,6 @@ this.i18n = {
         "en": "No matches were found.",
         "de": "Keine Übereinstimmungen gefunden."
     },
-    
-    
-    
     "information": {
         "en": "Information",
         "de": "Information"
@@ -23,13 +20,13 @@ this.i18n = {
         "en": "JIRA",
         "pt": "JIRA"
     },
-    "username": {
-        "en": "Username:",
-        "de": "Benutzername:"
+    "url": {
+        "en": "Url:",
+        "pt": "Url:"
     },
-    "password": {
-        "en": "Password:",
-        "de": "Passwort:"
+    "project": {
+        "en": "Project:",
+        "pt": "Projeto:"
     },
     "x-characters": {
         "en": "6 - 12 characters",

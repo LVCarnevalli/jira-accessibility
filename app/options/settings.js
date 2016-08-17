@@ -14,7 +14,7 @@ window.addEvent("domready", function () {
         "group": i18n.get("jira"),
         "name": "url",
         "type": "text",
-        "label": i18n.get("username")
+        "label": i18n.get("url")
     });
     
     var project = settings.create({
@@ -22,16 +22,16 @@ window.addEvent("domready", function () {
         "group": i18n.get("jira"),
         "name": "project",
         "type": "text",
-        "label": i18n.get("password")
+        "label": i18n.get("project")
     });
     
-    var description = settings.create({
-        "tab": i18n.get("information"),
-        "group": i18n.get("jira"),
-        "name": "myDescription",
-        "type": "description",
-        "text": i18n.get("description")
-    });
+    // var description = settings.create({
+    //     "tab": i18n.get("information"),
+    //     "group": i18n.get("jira"),
+    //     "name": "myDescription",
+    //     "type": "description",
+    //     "text": i18n.get("description")
+    // });
     
     settings.align([
         url,

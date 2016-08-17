@@ -5,24 +5,23 @@ this.manifest = {
     "settings": [
         {
             "tab": i18n.get("information"),
-            "group": i18n.get("login"),
-            "name": "username",
+            "group": i18n.get("jira"),
+            "name": "url",
             "type": "text",
-            "label": i18n.get("username"),
+            "label": i18n.get("url"),
             "text": i18n.get("x-characters")
         },
         {
             "tab": i18n.get("information"),
-            "group": i18n.get("login"),
-            "name": "password",
+            "group": i18n.get("jira"),
+            "name": "project",
             "type": "text",
-            "label": i18n.get("password"),
-            "text": i18n.get("x-characters-pw"),
-            "masked": true
+            "label": i18n.get("project"),
+            "text": i18n.get("x-characters")
         },
         {
             "tab": i18n.get("information"),
-            "group": i18n.get("login"),
+            "group": i18n.get("jira"),
             "name": "myDescription",
             "type": "description",
             "text": i18n.get("description")
@@ -123,8 +122,8 @@ this.manifest = {
     ],
     "alignment": [
         [
-            "username",
-            "password"
+            "url",
+            "project"
         ],
         [
             "noti_volume",
